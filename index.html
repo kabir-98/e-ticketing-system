@@ -13,9 +13,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css" />
-
+    <!-- linking pop-up box -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
-    <!-- Optional: include a polyfill for ES6 Promises for IE11 -->
   </head>
 
   <body>
@@ -123,12 +122,13 @@
             </div>
             <button onclick="book()" class="btn-style">Book Now</button>
           </div>
+          <!-- Added extra part for Button action handling -->
           <div id="congratulations-area">
             <h2>Congratulations, Sir!</h2>
             <p>
               We have confirmed your booking.<br />
               Please pay <span style="color: tomato"><b>$</b></span
-              ><span id="show-final-money" style="color: tomato"><b>0</b></span> with due date.<br />
+              ><span id="show-final-money" style="color: tomato; font-weight: bold">0</span> with due date.<br />
               Hope you will enjoy your journey with us!<br />
               Thank you.
             </p>
@@ -137,9 +137,10 @@
       </div>
     </main>
 
-    <!--Thank You-->
+    <!--Welcome-->
 
     <script>
+      // function for plus(+) and minus(-) button
       function personChange(classType, increase) {
         var personInput = document.getElementById(classType + "-count");
         var personCount = parseInt(personInput.value);
@@ -163,6 +164,7 @@
         calculateMoney();
       }
 
+      // Calculating total vat and total money
       function calculateMoney() {
         var fTotalMoney = parseInt(document.getElementById("f-class-total-price").innerText);
         var eTotalMoney = parseInt(document.getElementById("e-class-total-price").innerText);
@@ -176,11 +178,15 @@
         var grandTotal = totalMoney + taxMoney;
         document.getElementById("grand-total").innerText = grandTotal;
       }
-
       window.addEventListener("DOMContentLoaded", (event) => {
         calculateMoney();
       });
 
+      // Handling button action
+      // Extra pop-up box and "display" work added
+      // Pop will be shown after the "Book now" button is clicked.
+      // Initially 1 persons calculation will thrown.
+      // As per the different inputs this code will different pop-up box and messages.
       function book() {
         var finalAmount = parseInt(document.getElementById("grand-total").innerText);
         if (finalAmount == 0) {
@@ -190,9 +196,6 @@
             text: "Sir, You have  booked nothing!",
             footer: "Please go to booking section!",
           });
-          //   alert(
-          //     "Sir, \nYou have not booking anything! \nPlease go to booking section!"
-          //   );
         } else {
           Swal.fire("Congratulation!", "", "success");
 
