@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cruise Booking</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
+    <!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+  </head>
+
+  <body>
+    <!--Header and Menu Section-->
+    <header class="container">
+      <nav>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a class="active" href="#">Sign Up</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!--Booking Section-->
+    <main class="main-content container">
+      <div class="booking-content">
+        <h1>Cruise Queen</h1>
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+          standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to
+          make a type specimen book.
+        </p>
+      </div>
+
+      <div class="booking-form">
+        <div>
+          <h3>Book Ocean Time</h3>
+          <div class="input-group">
+            <label for="">Sailing From</label>
+            <input class="inp-style" type="text" name="" placeholder="Dhaka, Bangladesh" />
+          </div>
+          <div class="input-group">
+            <label for="">Sailing To</label>
+            <input class="inp-style" type="text" name="" placeholder="New York, United States" />
+          </div>
+          <div class="inputs">
+            <div class="input-group">
+              <label for="">Departure</label>
+              <input class="inp-style" type="date" name="" />
+            </div>
+            <div class="input-group">
+              <label for="">Return</label>
+              <input class="inp-style" type="date" name="" />
+            </div>
+          </div>
+          <div id="main-booking-container">
+            <div class="input-group f-class">
+              <div>
+                <label for="">First Class ($<span id="f-class-total-price">150</span>)</label>
+                <input id="f-class-count" class="inp-style inp-width" type="number" value="1" />
+              </div>
+              <div>
+                <button onclick="personChange('f-class', true)" class="plus-minus-btn">
+                  <i class="fa fa-plus"></i>
+                </button>
+                <button onclick="personChange('f-class', false)" class="plus-minus-btn">
+                  <i class="fa fa-minus"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="input-group f-class">
+              <div>
+                <label for="">Economy ($<span id="e-class-total-price">100</span>)</label>
+                <input id="e-class-count" class="inp-style inp-width" type="number" value="1" />
+              </div>
+              <div>
+                <button onclick="personChange('e-class', true)" class="plus-minus-btn">
+                  <i class="fa fa-plus"></i>
+                </button>
+                <button onclick="personChange('e-class', false)" class="plus-minus-btn">
+                  <i class="fa fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="calculations">
+              <div class="amount">
+                <div class="left">
+                  <p>Subtotal</p>
+                </div>
+                <div class="right">
+                  <p>$<span id="total-money">0</span></p>
+                </div>
+              </div>
+
+              <div class="amount">
+                <div class="left">
+                  <p>Charge 10% VAT</p>
+                </div>
+                <div class="right">
+                  <p>$<span id="tax-money">0</span></p>
+                </div>
+              </div>
+              <hr />
+              <div class="amount">
+                <div class="left">
+                  <h4>Total</h4>
+                </div>
+                <div class="right">
+                  <p>$<span id="grand-total">0</span></p>
+                </div>
+              </div>
+            </div>
+            <button onclick="book()" class="btn-style">Book Now</button>
+          </div>
+          <div id="congratulations-area">
+            <h2>Congratulations, Sir!</h2>
+            <p>
+              We have confirmed your booking.<br />
+              Please pay <span style="color: tomato"><b>$</b></span
+              ><span id="show-final-money" style="color: tomato"><b>0</b></span> with due date.<br />
+              Hope you will enjoy your journey with us!<br />
+              Thank you.
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!--Thank You-->
+
+    <script>
+      function personChange(classType, increase) {
+        var personInput = document.getElementById(classType + "-count");
+        var personCount = parseInt(personInput.value);
+        var personNewCount = personCount;
+        if (increase == true) {
+          personNewCount = personCount + 1;
+        }
+        if (increase == false && personCount > 0) {
+          personNewCount = personCount - 1;
+        }
+        personInput.value = personNewCount;
+        var totalPerson = 0;
+        if (classType == "f-class") {
+          totalPerson = personNewCount * 150;
+        }
+        if (classType == "e-class") {
+          totalPerson = personNewCount * 100;
+        }
+        document.getElementById(classType + "-total-price").innerText = totalPerson;
+
+        calculateMoney();
+      }
+
+      function calculateMoney() {
+        var fTotalMoney = parseInt(document.getElementById("f-class-total-price").innerText);
+        var eTotalMoney = parseInt(document.getElementById("e-class-total-price").innerText);
+
+        var totalMoney = fTotalMoney + eTotalMoney;
+        document.getElementById("total-money").innerText = totalMoney;
+
+        var taxMoney = Math.round(totalMoney * 0.1);
+        document.getElementById("tax-money").innerText = taxMoney;
+
+        var grandTotal = totalMoney + taxMoney;
+        document.getElementById("grand-total").innerText = grandTotal;
+      }
+
+      window.addEventListener("DOMContentLoaded", (event) => {
+        calculateMoney();
+      });
+
+      function book() {
+        var finalAmount = parseInt(document.getElementById("grand-total").innerText);
+        if (finalAmount == 0) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Sir, You have  booked nothing!",
+            footer: "Please go to booking section!",
+          });
+          //   alert(
+          //     "Sir, \nYou have not booking anything! \nPlease go to booking section!"
+          //   );
+        } else {
+          Swal.fire("Congratulation!", "", "success");
+
+          var confirmBooking = document.getElementById("main-booking-container");
+
+          confirmBooking.style.display = "none";
+
+          var congratuLations = document.getElementById("congratulations-area");
+          congratuLations.style.display = "block";
+
+          var showCustomerMoney = document.getElementById("grand-total").innerText;
+          console.log(showCustomerMoney);
+          var finalMoney = document.getElementById("show-final-money");
+          finalMoney.innerHTML = showCustomerMoney;
+        }
+      }
+    </script>
+  </body>
+</html>
